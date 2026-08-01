@@ -1437,11 +1437,13 @@ void updateGame(float deltaTime)
         skip_garbage:;
     }
 
-    // --- GRAVITY ---
-    updateGravity(deltaTime);
-
+    
     // --- DAS ---
     updateDAS(deltaTime);
+
+
+    // --- GRAVITY ---
+    updateGravity(deltaTime);
 }
 
 void renderGame(SDL_Renderer* renderer)
@@ -2011,7 +2013,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    SDL_Window* window = SDL_CreateWindow("Tetris", WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+    SDL_Window* window = SDL_CreateWindow("Nestris", WINDOW_WIDTH, WINDOW_HEIGHT, 0);
     if(!window){
         std::cout << "Window creation failed: " << SDL_GetError() << "\n";
         return 1;

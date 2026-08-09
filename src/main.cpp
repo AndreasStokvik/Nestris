@@ -814,7 +814,8 @@ void fillSevenBag()
 }
 
 void getNextPiece() {
-    if (isModOn(ModID::SevenBag)) {
+    if (isModOn(ModID::SevenBag)) 
+    {
         if (sevenBagId >= 7) {
             fillSevenBag();
             sevenBagId = 0;
@@ -823,6 +824,7 @@ void getNextPiece() {
         nextPiece.type = sevenBag[sevenBagId++];
     } else {
         nextPiece.type = dist(rng);
+        if (nextPiece.type == current.type) nextPiece.type = dist(rng);
     }
 
     nextPiece.rotation = isModOn(ModID::RandomRotation) ? rotDist(rng) : 0;

@@ -6,6 +6,10 @@ constexpr int WINDOW_HEIGHT = 224 * GAMESCALE;
 constexpr int BOARD_WIDTH = 10;
 constexpr int BOARD_HEIGHT = 20;
 
+inline int cellSize = 8 * GAMESCALE;
+inline int boardTotalWidth = cellSize * BOARD_WIDTH;
+inline int boardTotalHeight = cellSize * BOARD_HEIGHT;
+
 enum class BoxName{
     MMTop,
     MMLevelText,
@@ -59,8 +63,13 @@ constexpr int boxPositions[(int)BoxName::Count][4] = {
     {189, 181, 46, 14} // BurnTimer
 };
 
+inline int BOARD_OFFSET_X = (boxPositions[(int)BoxName::STANDARDGameBoard][0] + 1) * GAMESCALE;
+inline int BOARD_OFFSET_Y = boxPositions[(int)BoxName::STANDARDGameBoard][1] * GAMESCALE;
+
+inline const int spawnX = (BOARD_WIDTH/2) - 2;
+
 constexpr int TETROMINO_COUNT = 7;
-int tetrominoes[TETROMINO_COUNT][4][4][4] = {
+inline int tetrominoes[TETROMINO_COUNT][4][4][4] = {
     // I
     {
         {
@@ -288,5 +297,19 @@ constexpr int garbageLevels[] = {
     15, 15, 10, 10, 10, 10, 10, 10, 10
 };
 
+constexpr float CLEAR_STEP_TIME = 4.0f / 60.0f;
+
 constexpr float DAS_INITIAL = 16.0f / 60.0f; // ~0.2667s
 constexpr float DAS_REPEAT = 6.0f / 60.0f; // ~0.1s
+
+enum class GameState {
+    Menu,
+    Playing,
+    Paused,
+    GameOver
+};
+
+enum class MenuScreen {
+    Main,
+    Options
+};

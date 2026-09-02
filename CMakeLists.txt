@@ -14,10 +14,12 @@ find_package(SDL3 REQUIRED CONFIG)
 if(WIN32)
     add_executable(Nestris WIN32
         src/main.cpp
+        src/GameState.cpp
     )
 else()
     add_executable(Nestris
         src/main.cpp
+        src/GameState.cpp
     )
 endif()
 

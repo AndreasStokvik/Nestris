@@ -11,31 +11,10 @@
 #include <fstream>
 
 #include "Config.h"
+#include "Gamestate.h"
 
 
-const int cellSize = 8 * GAMESCALE;
-int boardTotalWidth = cellSize * BOARD_WIDTH;
-int boardTotalHeight = cellSize * BOARD_HEIGHT;
-int BOARD_OFFSET_X = (boxPositions[(int)BoxName::STANDARDGameBoard][0] + 1) * GAMESCALE;
-int BOARD_OFFSET_Y = boxPositions[(int)BoxName::STANDARDGameBoard][1] * GAMESCALE;
 int fontScale = 4;
-
-
-const int spawnX = (BOARD_WIDTH/2) - 2;
-float fallInterval = 0.8f;
-float fallTimer = 0.0f;
-int startLevel = 0;
-
-bool inARE = false;
-float areTimer = 0.0f;
-bool inLineClear = false;
-float lineClearTimer = 0.0f;
-float gravityAccumulator = 0.0f;
-
-std::vector<int> linesToClear;
-int clearStep = 0;
-const float CLEAR_STEP_TIME = 4.0f / 60.0f;
-
 
 std::string getCurrentDate()
 {
@@ -56,64 +35,11 @@ std::string getCurrentDate()
     return buffer;
 }
 
+int pieceCounts[TETROMINO_COUNT] = {0};
 
-
-
-float countDown = 1.0f;
-float garbageTimer = 0.0f;
-bool burnDownActive = false;
-
-int board[BOARD_HEIGHT][BOARD_WIDTH] = {0};
-
-
-// DAS and softdrop variables
-float dasTimer = 0.0f;
-int dasDirection = 0;
-bool holdingLeft = false;
-bool holdingRight = false;
-bool dasActive = false;
-
-float softDropTimer = 0.0f;
-bool holdingDown = false;
-bool wasSoftDropping = false;
-
-enum class GameState {
-    Menu,
-    Playing,
-    Paused,
-    GameOver
-};
-GameState gameState = GameState::Menu;
-enum class MenuScreen {
-    Main,
-    Options
-};
-MenuScreen currentMenu = MenuScreen::Main;
-
-
-int pieceCounts[TETROMINO_COUNT] = {
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-};
-
-Piece current;
-Piece nextPiece;
-Piece heldPiece;
-Piece tempPiece;
-std::array<int, 7> sevenBag = {};
-int sevenBagId = 0;
-bool pieceActive = true;
-bool hasHeldPiece = false;
-std::mt19937 rng(std::random_device{}());
 std::uniform_int_distribution<int> dist(0, TETROMINO_COUNT - 1);
 std::uniform_int_distribution<int> rotDist(0, 3);
 std::uniform_int_distribution<int> garbageRNG(0, 1);
-
 
 SDL_Texture* fontTexture;
 SDL_Texture* levelColorTexture;
@@ -127,12 +53,10 @@ SDL_Texture* holdBoardFlashTexture;
 SDL_Texture* burnBoardTexture;
 SDL_Texture* burnBoardFlashTexture;
 
-
 int getCharIndex(char c) {
     if ( c < 32 || c > 126) return 0;
     return c - 32;
 }
-
 
 // --- MODIFIERS ---
 #define MOD_LIST \
@@ -159,8 +83,6 @@ const char* ModNames[] = {
 std::array<bool, (int)ModID::Count> modValues = {};
 bool isModOn(ModID id) { return modValues[(int)id]; }
 void toggleMod(ModID id) { modValues[(int)id] = !modValues[(int)id]; }
-int selectedMod = 0;
-
 
 // --- GAME MODES ---
 #define GAMEMODE_LIST \
@@ -169,7 +91,7 @@ X(NESPlus, "NES + ALL QOL OPTIONS") \
 X(Garbage, "CLEAR GARBAGE") \
 X(BurnDown, "BURN MARATHON")
 
-int selectedMode = 0;
+// int selectedMode = 0;
 enum class GameMode {
 #define X(id, name) id,
     GAMEMODE_LIST
@@ -185,15 +107,6 @@ const char* GameModeNames[] = {
 
 std::array<bool, (int)GameMode::Count> gameModeValues = {};
 GameMode currentMode = GameMode::NES;
-
-
-
-// --- Score stuff ---
-int level = 0;
-int linesTotal = 0;
-int score = 0;
-int topScore = 10000;
-bool scoreSaved = false;
 
 struct HighScoreEntry
 {

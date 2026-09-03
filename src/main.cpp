@@ -12,7 +12,7 @@
 
 #include "Config.h"
 #include "Gamestate.h"
-
+#include "Mods.h"
 
 int fontScale = 4;
 
@@ -58,32 +58,6 @@ int getCharIndex(char c) {
     return c - 32;
 }
 
-// --- MODIFIERS ---
-#define MOD_LIST \
-X(ShowGrid, "SHOW GRID") \
-X(HardDrop, "HARD DROP") \
-X(ShowGhost, "SHOW GHOST") \
-X(SevenBag, "ENABLE 7-BAG") \
-X(EnableHold, "ENABLE HOLD") \
-X(RandomRotation, "RANDOM ROTATION")
-
-enum class ModID {
-#define X(id, name) id,
-    MOD_LIST
-#undef X
-    Count
-};
-
-const char* ModNames[] = {
-#define X(id, name) name,
-    MOD_LIST
-#undef X
-};
-
-std::array<bool, (int)ModID::Count> modValues = {};
-bool isModOn(ModID id) { return modValues[(int)id]; }
-void toggleMod(ModID id) { modValues[(int)id] = !modValues[(int)id]; }
-
 // --- GAME MODES ---
 #define GAMEMODE_LIST \
 X(NES, "STANDARD NES RULES") \
@@ -91,7 +65,6 @@ X(NESPlus, "NES + ALL QOL OPTIONS") \
 X(Garbage, "CLEAR GARBAGE") \
 X(BurnDown, "BURN MARATHON")
 
-// int selectedMode = 0;
 enum class GameMode {
 #define X(id, name) id,
     GAMEMODE_LIST

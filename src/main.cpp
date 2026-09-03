@@ -13,6 +13,7 @@
 #include "Config.h"
 #include "Gamestate.h"
 #include "Mods.h"
+#include "GameModes.h"
 
 int fontScale = 4;
 
@@ -57,29 +58,6 @@ int getCharIndex(char c) {
     if ( c < 32 || c > 126) return 0;
     return c - 32;
 }
-
-// --- GAME MODES ---
-#define GAMEMODE_LIST \
-X(NES, "STANDARD NES RULES") \
-X(NESPlus, "NES + ALL QOL OPTIONS") \
-X(Garbage, "CLEAR GARBAGE") \
-X(BurnDown, "BURN MARATHON")
-
-enum class GameMode {
-#define X(id, name) id,
-    GAMEMODE_LIST
-#undef X
-    Count
-};
-
-const char* GameModeNames[] = {
-#define X(id, name) name,
-    GAMEMODE_LIST
-#undef X
-};
-
-std::array<bool, (int)GameMode::Count> gameModeValues = {};
-GameMode currentMode = GameMode::NES;
 
 struct HighScoreEntry
 {

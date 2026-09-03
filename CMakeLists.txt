@@ -16,12 +16,14 @@ if(WIN32)
         src/main.cpp
         src/GameState.cpp
         src/Mods.cpp
+        src/GameModes.cpp
     )
 else()
     add_executable(Nestris
         src/main.cpp
         src/GameState.cpp
         src/Mods.cpp
+        src/GameModes.cpp
     )
 endif()
 

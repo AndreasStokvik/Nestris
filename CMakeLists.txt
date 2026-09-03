@@ -17,6 +17,8 @@ if(WIN32)
         src/GameState.cpp
         src/Mods.cpp
         src/GameModes.cpp
+        src/Highscores.cpp
+        src/Render.cpp
     )
 else()
     add_executable(Nestris
@@ -24,6 +26,8 @@ else()
         src/GameState.cpp
         src/Mods.cpp
         src/GameModes.cpp
+        src/Highscores.cpp
+        src/Render.cpp
     )
 endif()
 

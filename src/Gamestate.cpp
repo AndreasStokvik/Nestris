@@ -38,13 +38,13 @@ std::array<int, TETROMINO_COUNT> sevenBag = {};
 int sevenBagId = 0;
 bool pieceActive = true;
 bool hasHeldPiece = false;
-std::mt19937 rng(std::random_device{}());
 
 int level = 0;
 int linesTotal = 0;
 int score = 0;
 int topScore = 10000;
 bool scoreSaved = false;
+int pieceCounts[TETROMINO_COUNT] = {0};
 
 int selectedMod = 0;
 int selectedMode = 0;

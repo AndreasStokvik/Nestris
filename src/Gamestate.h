@@ -51,7 +51,6 @@ extern std::array<int, TETROMINO_COUNT> sevenBag;
 extern int sevenBagId;
 extern bool pieceActive;
 extern bool hasHeldPiece;
-extern std::mt19937 rng;
 
 // Score / level
 extern int level;
@@ -59,6 +58,9 @@ extern int linesTotal;
 extern int score;
 extern int topScore;
 extern bool scoreSaved;
+
+extern int pieceCounts[TETROMINO_COUNT];
+
 
 // Menu selection
 extern int selectedMod;

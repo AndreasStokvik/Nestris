@@ -19,6 +19,7 @@ if(WIN32)
         src/GameModes.cpp
         src/Highscores.cpp
         src/Render.cpp
+        src/PieceLogic.cpp
     )
 else()
     add_executable(Nestris
@@ -28,6 +29,7 @@ else()
         src/GameModes.cpp
         src/Highscores.cpp
         src/Render.cpp
+        src/PieceLogic.cpp
     )
 endif()
 
